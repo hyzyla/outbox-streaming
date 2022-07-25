@@ -1,0 +1,62 @@
+[tool.poetry]
+name = "outbox-streaming"
+version = "0.1.0"
+description = ""
+authors = ["Yevhenii Hyzyla <hyzyla@gmail.com>"]
+readme = "README.md"
+packages = [{include = "outbox_streaming"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+# Optional dependencies
+aiokafka = {version = "^0.7.2", optional = true}
+SQLAlchemy = {version = "^1.4, <2,", extras = ["asyncio"], optional = true}
+kafka-python = {version = "^2.0.2", optional = true}
+celery = {version = "^5.2.7", optional = true}
+psycopg2-binary = {version = "^2.9.3", optional = true}
+
+
+[tool.poetry.extras]
+test = ["aiokafka", "SQLAlchemy", "kafka-python", "celery", "psycopg2-binary"]
+
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.2"
+wait-for-it = "^2.2.1"
+invoke = "^1.7.1"
+black = "^22.6.0"
+mypy = "^0.971"
+flake8 = "^4.0.1"
+isort = "^5.10.1"
+rich = "^12.5.1"
+python-dotenv = "^0.20.0"
+dirty-equals = "^0.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+# ===================
+# Tools configuration
+[tool.black]
+line-length = 88
+target-version = ['py310']
+
+[tool.isort]
+profile = "black"
+
+[tool.mypy]
+exclude = 'app/migrations'
+strict = true
+# disable few strict flags
+ignore_missing_imports = true
+disallow_subclassing_any = false
+warn_return_any = false
+implicit_reexport = true
+
+# disable mypy for a test at all
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+ignore_errors = true

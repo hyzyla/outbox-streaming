@@ -1,0 +1,9 @@
+pip-tools
+fastapi
+SQLAlchemy
+alembic
+psycopg2
+uvicorn
+contextvars
+watchfiles
+file:./../..#egg=outbox-streaming

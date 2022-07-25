@@ -1,0 +1,6 @@
+pip-tools
+psycopg2
+asyncpg
+watchfiles
+sqlalchemy[asyncio]>=1.4.19
+file:./../..#egg=outbox-streaming
