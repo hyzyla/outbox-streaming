@@ -20,6 +20,12 @@ Reliably send messages to message/task brokers, like Kafka or Celery
  - 🆕 RabbitMQ + Djagno
 
 
+# Installation
+```shell
+pip install outbox-streaming
+```
+
+
 # Example FastAPI + Kafka + SQLAlchemy
 ```python
 from fastapi import FastAPI
