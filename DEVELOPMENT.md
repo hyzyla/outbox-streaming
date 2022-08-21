@@ -2,12 +2,12 @@
 
 ## Run test
 ```shell
-poetry run invoke test
+just test
 ```
 
 ## Run linters & formatters
 ```shell
-poetry run invoke lint
+just lint
 ```
 
 

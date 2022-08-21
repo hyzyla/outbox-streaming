@@ -55,7 +55,6 @@ def test_save_with_session_argument(outbox, db_cleanup, db_session):
     result = db_session.execute(sa.select(outbox.storage.model))
     rows = result.scalars().all()
     row = rows[0]
-    print(row)
     assert row.id == 1
     assert row.key is None
     assert row.topic == 'test-topic'
@@ -82,7 +81,6 @@ def test_save_with_scoped_session(config, db_engine, db_cleanup):
         result = scoped_session.execute(sa.select(outbox.storage.model))
         rows = result.scalars().all()
         row = rows[0]
-        print(row)
         assert row.id == 1
         assert row.key is None
         assert row.topic == 'test-topic'

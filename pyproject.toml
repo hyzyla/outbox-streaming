@@ -24,10 +24,9 @@ test = ["aiokafka", "SQLAlchemy", "kafka-python", "celery", "psycopg2-binary"]
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
 wait-for-it = "^2.2.1"
-invoke = "^1.7.1"
 black = "^22.6.0"
 mypy = "^0.971"
-flake8 = "^4.0.1"
+flake8 = "^5.0.4"
 isort = "^5.10.1"
 rich = "^12.5.1"
 python-dotenv = "^0.20.0"
