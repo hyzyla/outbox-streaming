@@ -8,25 +8,25 @@ recommended for production use. ⚠️ ☢️ ️🚧
 
 ## Roadmap
 ### Done
- - ✅ Kafka + SQLAlchemy
- - ✅ Kafka + SQLAlchemy + asyncio
+* ✅ Kafka + SQLAlchemy
+* ✅ Kafka + SQLAlchemy + asyncio
 ### In progress (lack of tests)
- - 🚧 Celery + SQLAlchemy
- - 🚧 Celery + SQLAlchemy + asyncio
- - 🚧 Custom + SQLAlchemy
- - 🚧 Custom + SQLAlchemy + asyncio
+* 🚧 Celery + SQLAlchemy
+* 🚧 Celery + SQLAlchemy + asyncio
+* 🚧 Custom + SQLAlchemy
+* 🚧 Custom + SQLAlchemy + asyncio
+* 🚧 RQ + SQLAlchemy
+* 🚧 RQ + SQLAlchemy + asyncio
 ### Planned
-- 🔍 Dramatiq + SQLAlchemy
-- 🔍 Dramatiq + SQLAlchemy + asyncio
-- 🔍 RabbitMQ + SQLAlchemy
-- 🔍 RabbitMQ + SQLAlchemy + asyncio
-- 🔍 Redis + SQLAlchemy
-- 🔍 Redis + SQLAlchemy + asyncio
-- 🔍 Kafka + Django ORM
-- 🔍 Celery + Django ORM
-- 🔍 Redis + Django
-- 🔍 Dramatiq + Django 
-- 🔍 RabbitMQ + Djagno
+* 🔍 Dramatiq + SQLAlchemy
+* 🔍 Dramatiq + SQLAlchemy + asyncio
+* 🔍 RabbitMQ + SQLAlchemy
+* 🔍 RabbitMQ + SQLAlchemy + asyncio
+* 🔍 Kafka + Django ORM
+* 🔍 Celery + Django ORM
+* 🔍 Redis + Django
+* 🔍 Dramatiq + Django
+* 🔍 RabbitMQ + Djagno
 
 
 
