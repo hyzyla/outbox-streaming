@@ -18,15 +18,10 @@ recommended for production use. ⚠️ ☢️ ️🚧
 * 🚧 RQ + SQLAlchemy
 * 🚧 RQ + SQLAlchemy + asyncio
 ### Planned
-* 🔍 Dramatiq + SQLAlchemy
-* 🔍 Dramatiq + SQLAlchemy + asyncio
-* 🔍 RabbitMQ + SQLAlchemy
-* 🔍 RabbitMQ + SQLAlchemy + asyncio
 * 🔍 Kafka + Django ORM
 * 🔍 Celery + Django ORM
-* 🔍 Redis + Django
-* 🔍 Dramatiq + Django
-* 🔍 RabbitMQ + Djagno
+* 🔍 RQ + Django ORM
+* 🔍 Custom + Django ORM
 
 
 
