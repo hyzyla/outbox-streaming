@@ -1,4 +1,4 @@
-from typing import Any, AsyncIterator, Iterable, List, Mapping, Optional
+from typing import Any, AsyncIterator, Iterable, Mapping
 
 import sqlalchemy as sa
 from sqlalchemy.ext.asyncio import (
@@ -8,9 +8,9 @@ from sqlalchemy.ext.asyncio import (
     async_scoped_session,
 )
 
-from ..types import AsyncRQOutboxStorageABC, RQMessage
-from ...common.sqlalchemy.storage import AsyncSQLAlchemyStorageMixin
 from ....rq.sqlalchemy.models import OutboxRQModel
+from ...common.sqlalchemy.storage import AsyncSQLAlchemyStorageMixin
+from ..types import AsyncRQOutboxStorageABC, RQMessage
 
 
 class AsyncSQLAlchemyRQOutboxStorage(
@@ -23,15 +23,15 @@ class AsyncSQLAlchemyRQOutboxStorage(
     def __init__(
         self,
         engine: AsyncEngine,
-        scoped_session: Optional[async_scoped_session] = None,
+        scoped_session: async_scoped_session | None = None,
     ) -> None:
         self.engine: AsyncEngine = engine
-        self.scoped_session: Optional[async_scoped_session] = scoped_session
+        self.scoped_session: async_scoped_session | None = scoped_session
 
     async def get_connection(
         self,
-        session: Optional[AsyncSession] = None,
-        connection: Optional[AsyncConnection] = None,
+        session: AsyncSession | None = None,
+        connection: AsyncConnection | None = None,
     ) -> AsyncConnection:
         if connection is not None:
             return connection
@@ -44,11 +44,11 @@ class AsyncSQLAlchemyRQOutboxStorage(
     async def save(
         self,
         func: str,
-        args: Optional[Iterable[Any]] = None,
-        kwargs: Optional[Mapping[str, Any]] = None,
+        args: Iterable[Any] | None = None,
+        kwargs: Mapping[str, Any] | None = None,
         *,
-        session: Optional[AsyncSession] = None,
-        connection: Optional[AsyncConnection] = None,
+        session: AsyncSession | None = None,
+        connection: AsyncConnection | None = None,
     ) -> None:
         """Serialize and save to database RQ task"""
 
@@ -65,7 +65,7 @@ class AsyncSQLAlchemyRQOutboxStorage(
             )
         )
 
-    async def get_tasks_batch(self, size: int) -> AsyncIterator[List[RQMessage]]:
+    async def get_tasks_batch(self, size: int) -> AsyncIterator[list[RQMessage]]:
 
         query = self.model.consume_query(size=size)
 

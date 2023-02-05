@@ -1,10 +1,8 @@
-from typing import Optional
-
 import sqlalchemy as sa
 import sqlalchemy.orm
 
-from .storage import SQLAlchemyRQOutboxStorage
 from ..publisher import OutboxRQPublisher
+from .storage import SQLAlchemyRQOutboxStorage
 
 
 class SQLAlchemyRQOutbox:
@@ -15,7 +13,7 @@ class SQLAlchemyRQOutbox:
     def __init__(
         self,
         engine: sa.engine.Engine,
-        scoped_session: Optional[sa.orm.scoped_session] = None,
+        scoped_session: sa.orm.scoped_session | None = None,
     ) -> None:
         self.storage = self.storage_class(engine=engine, scoped_session=scoped_session)
         self.publisher = self.publisher_class(

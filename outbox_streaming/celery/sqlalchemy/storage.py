@@ -1,4 +1,4 @@
-from typing import Any, Iterable, Iterator, List, Mapping, Optional
+from typing import Any, Iterable, Iterator, Mapping
 
 import sqlalchemy as sa
 import sqlalchemy.orm
@@ -16,19 +16,19 @@ class SQLAlchemyCeleryOutboxStorage(CeleryOutboxStorageABC, SQLAlchemyStorageMix
     def __init__(
         self,
         engine: sa.engine.Engine,
-        scoped_session: Optional[sa.orm.scoped_session] = None,
+        scoped_session: sa.orm.scoped_session | None = None,
     ) -> None:
         self.engine: sa.engine.Engine = engine
-        self.scoped_session: Optional[sa.orm.scoped_session] = scoped_session
+        self.scoped_session: sa.orm.scoped_session | None = scoped_session
 
     def save(
         self,
         task: Task,
-        args: Optional[Iterable[Any]] = None,
-        kwargs: Optional[Mapping[str, Any]] = None,
-        options: Optional[Mapping[str, Any]] = None,
-        session: Optional[sa.orm.Session] = None,
-        connection: Optional[sa.engine.Connection] = None,
+        args: Iterable[Any] | None = None,
+        kwargs: Mapping[str, Any] | None = None,
+        options: Mapping[str, Any] | None = None,
+        session: sa.orm.Session | None = None,
+        connection: sa.engine.Connection | None = None,
     ) -> None:
         """Serialize and save to database Celery task"""
 
@@ -46,7 +46,7 @@ class SQLAlchemyCeleryOutboxStorage(CeleryOutboxStorageABC, SQLAlchemyStorageMix
             )
         )
 
-    def get_tasks_batch(self, size: int) -> Iterator[List[CeleryTask]]:
+    def get_tasks_batch(self, size: int) -> Iterator[list[CeleryTask]]:
 
         query = self.model.consume_query(size=size)
 

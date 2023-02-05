@@ -1,5 +1,3 @@
-from typing import Optional
-
 import sqlalchemy as sa
 import sqlalchemy.orm
 
@@ -16,8 +14,8 @@ class SQLAlchemyCustomOutbox:
     def __init__(
         self,
         engine: sa.engine.Engine,
-        json_dump: Optional[JsonDumpFunction] = None,
-        scoped_session: Optional[sa.orm.scoped_session] = None,
+        json_dump: JsonDumpFunction | None = None,
+        scoped_session: sa.orm.scoped_session | None = None,
     ) -> None:
         self.storage = self.storage_class(
             engine=engine, json_dump=json_dump, scoped_session=scoped_session

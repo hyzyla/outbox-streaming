@@ -1,4 +1,4 @@
-from typing import Any, AsyncIterator, Iterable, List, Mapping, Optional
+from typing import Any, AsyncIterator, Iterable, Mapping
 
 import sqlalchemy as sa
 from celery import Task
@@ -24,15 +24,15 @@ class AsyncSQLAlchemyCeleryOutboxStorage(
     def __init__(
         self,
         engine: AsyncEngine,
-        scoped_session: Optional[async_scoped_session] = None,
+        scoped_session: async_scoped_session | None = None,
     ) -> None:
         self.engine: AsyncEngine = engine
-        self.scoped_session: Optional[async_scoped_session] = scoped_session
+        self.scoped_session: async_scoped_session | None = scoped_session
 
     async def get_connection(
         self,
-        session: Optional[AsyncSession] = None,
-        connection: Optional[AsyncConnection] = None,
+        session: AsyncSession | None = None,
+        connection: AsyncConnection | None = None,
     ) -> AsyncConnection:
         if connection is not None:
             return connection
@@ -45,11 +45,11 @@ class AsyncSQLAlchemyCeleryOutboxStorage(
     async def save(
         self,
         task: Task,
-        args: Optional[Iterable[Any]] = None,
-        kwargs: Optional[Mapping[str, Any]] = None,
-        options: Optional[Mapping[str, Any]] = None,
-        session: Optional[AsyncSession] = None,
-        connection: Optional[AsyncConnection] = None,
+        args: Iterable[Any] | None = None,
+        kwargs: Mapping[str, Any] | None = None,
+        options: Mapping[str, Any] | None = None,
+        session: AsyncSession | None = None,
+        connection: AsyncConnection | None = None,
     ) -> None:
         """Serialize and save to database Celery task"""
 
@@ -67,7 +67,7 @@ class AsyncSQLAlchemyCeleryOutboxStorage(
             )
         )
 
-    async def get_tasks_batch(self, size: int) -> AsyncIterator[List[CeleryTask]]:
+    async def get_tasks_batch(self, size: int) -> AsyncIterator[list[CeleryTask]]:
 
         query = self.model.consume_query(size=size)
 

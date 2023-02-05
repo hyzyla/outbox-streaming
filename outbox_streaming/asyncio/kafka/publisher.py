@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from typing import List
 
 from aiokafka import AIOKafkaProducer
 
@@ -16,11 +15,11 @@ logger.addHandler(logging.StreamHandler())
 class AsyncOutboxKafkaPublisher:
     def __init__(
         self,
-        kafka_servers: List[str],
+        kafka_servers: list[str],
         storage: AsyncKafkaOutboxStorageABC,
         batch_size: int = 100,
     ) -> None:
-        self.kafka_servers: List[str] = kafka_servers
+        self.kafka_servers: list[str] = kafka_servers
         self.storage = storage
         self.batch_size = batch_size
 

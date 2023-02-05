@@ -17,6 +17,7 @@ celery = {version = "^5.2.7", optional = true}
 psycopg2-binary = {version = "^2.9.3", optional = true}
 redis = "^4.4.2"
 rq = "^1.12.0"
+types-redis = "^4.4.0"
 
 
 [tool.poetry.extras]

@@ -1,4 +1,4 @@
-from typing import Optional, Type
+from typing import Type
 
 from sqlalchemy.ext.asyncio import (
     AsyncConnection,
@@ -12,14 +12,14 @@ from ....common.sqlachemy.base import OutboxMixin
 
 class AsyncSQLAlchemyStorageMixin:
 
-    scoped_session: Optional[async_scoped_session]
+    scoped_session: async_scoped_session | None
     model: Type[OutboxMixin]
     engine: AsyncEngine
 
     async def get_connection(
         self,
-        session: Optional[AsyncSession] = None,
-        connection: Optional[AsyncConnection] = None,
+        session: AsyncSession | None = None,
+        connection: AsyncConnection | None = None,
     ) -> AsyncConnection:
         if connection is not None:
             return connection

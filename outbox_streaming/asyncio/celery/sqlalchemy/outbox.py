@@ -1,12 +1,12 @@
-from typing import Any, Iterable, Mapping, Optional
+from typing import Any, Iterable, Mapping
 
 import sqlalchemy as sa
 import sqlalchemy.orm
 from celery import Celery, Task
 from sqlalchemy.ext.asyncio import AsyncEngine, async_scoped_session
 
-from .storage import AsyncSQLAlchemyCeleryOutboxStorage
 from ..publisher import AsyncOutboxCeleryPublisher
+from .storage import AsyncSQLAlchemyCeleryOutboxStorage
 
 
 class AsyncSQLAlchemyCeleryOutbox:
@@ -18,7 +18,7 @@ class AsyncSQLAlchemyCeleryOutbox:
         self,
         celery: Celery,
         engine: AsyncEngine,
-        scoped_session: Optional[async_scoped_session] = None,
+        scoped_session: async_scoped_session | None = None,
     ) -> None:
         self.storage = self.storage_class(engine=engine, scoped_session=scoped_session)
         self.publisher = self.publisher_class(
@@ -29,11 +29,11 @@ class AsyncSQLAlchemyCeleryOutbox:
     async def save(
         self,
         task: Task,
-        args: Optional[Iterable[Any]] = None,
-        kwargs: Optional[Mapping[str, Any]] = None,
-        options: Optional[Mapping[str, Any]] = None,
-        session: Optional[sa.orm.Session] = None,
-        connection: Optional[sa.engine.Connection] = None,
+        args: Iterable[Any] | None = None,
+        kwargs: Mapping[str, Any] | None = None,
+        options: Mapping[str, Any] | None = None,
+        session: sa.orm.Session | None = None,
+        connection: sa.engine.Connection | None = None,
     ) -> None:
         return await self.storage.save(
             task=task,

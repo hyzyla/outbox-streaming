@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from abc import ABC
 from dataclasses import dataclass
-from typing import Iterator, List, Any
+from typing import Any, Iterator
 
 
 @dataclass
@@ -14,5 +14,5 @@ class RQMessage:
 
 
 class RQOutboxStorageABC(ABC):
-    def get_messages_batch(self, size: int) -> Iterator[List[RQMessage]]:
+    def get_messages_batch(self, size: int) -> Iterator[list[RQMessage]]:
         ...

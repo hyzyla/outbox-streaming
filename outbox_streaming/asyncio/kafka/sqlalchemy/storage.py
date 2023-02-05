@@ -1,5 +1,5 @@
 import json
-from typing import Any, AsyncIterator, List, Optional
+from typing import Any, AsyncIterator
 
 import sqlalchemy as sa
 from sqlalchemy.ext.asyncio import (
@@ -25,14 +25,14 @@ class AsyncSQLAlchemyKafkaOutboxStorage(
     def __init__(
         self,
         engine: AsyncEngine,
-        json_dump: Optional[JsonDumpFunction] = None,
-        scoped_session: Optional[async_scoped_session] = None,
+        json_dump: JsonDumpFunction | None = None,
+        scoped_session: async_scoped_session | None = None,
     ) -> None:
         self.engine: AsyncEngine = engine
         self.json_dump: JsonDumpFunction = json_dump or json.dumps
-        self.scoped_session: Optional[async_scoped_session] = scoped_session
+        self.scoped_session: async_scoped_session | None = scoped_session
 
-    def serialize(self, value: str) -> Optional[bytes]:
+    def serialize(self, value: str) -> bytes | None:
         if value is None:
             return value
         return self.json_dump(value).encode()
@@ -41,9 +41,9 @@ class AsyncSQLAlchemyKafkaOutboxStorage(
         self,
         topic: str,
         value: Any,
-        key: Optional[str] = None,
-        session: Optional[AsyncSession] = None,
-        connection: Optional[AsyncConnection] = None,
+        key: str | None = None,
+        session: AsyncSession | None = None,
+        connection: AsyncConnection | None = None,
     ) -> None:
         _value = self.serialize(value)
 
@@ -60,7 +60,7 @@ class AsyncSQLAlchemyKafkaOutboxStorage(
             )
         )
 
-    async def get_messages_batch(self, size: int) -> AsyncIterator[List[KafkaMessage]]:
+    async def get_messages_batch(self, size: int) -> AsyncIterator[list[KafkaMessage]]:
 
         query = self.model.consume_query(size=size)
 

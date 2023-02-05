@@ -1,4 +1,4 @@
-from typing import Any, Iterable, Mapping, Optional
+from typing import Any, Iterable, Mapping
 
 import sqlalchemy as sa
 import sqlalchemy.orm
@@ -17,7 +17,7 @@ class SQLAlchemyCeleryOutbox:
         self,
         celery: Celery,
         engine: sa.engine.Engine,
-        scoped_session: Optional[sa.orm.scoped_session] = None,
+        scoped_session: sa.orm.scoped_session | None = None,
     ) -> None:
         self.storage = self.storage_class(
             engine=engine,
@@ -31,11 +31,11 @@ class SQLAlchemyCeleryOutbox:
     def save(
         self,
         task: Task,
-        args: Optional[Iterable[Any]] = None,
-        kwargs: Optional[Mapping[str, Any]] = None,
-        options: Optional[Mapping[str, Any]] = None,
-        session: Optional[sa.orm.Session] = None,
-        connection: Optional[sa.engine.Connection] = None,
+        args: Iterable[Any] | None = None,
+        kwargs: Mapping[str, Any] | None = None,
+        options: Mapping[str, Any] | None = None,
+        session: sa.orm.Session | None = None,
+        connection: sa.engine.Connection | None = None,
     ) -> None:
         return self.storage.save(
             task=task,

@@ -1,4 +1,4 @@
-from typing import Optional, Type
+from typing import Type
 
 from sqlalchemy.engine import Connection, Engine
 from sqlalchemy.orm import Session, scoped_session
@@ -8,14 +8,14 @@ from ...common.sqlachemy.base import OutboxMixin
 
 class SQLAlchemyStorageMixin:
 
-    scoped_session: Optional[scoped_session]
+    scoped_session: scoped_session | None
     model: Type[OutboxMixin]
     engine: Engine
 
     def get_connection(
         self,
-        session: Optional[Session] = None,
-        connection: Optional[Connection] = None,
+        session: Session | None = None,
+        connection: Connection | None = None,
     ) -> Connection:
         if connection is not None:
             return connection

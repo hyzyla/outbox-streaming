@@ -1,11 +1,11 @@
-from typing import Any, Iterator, List, Optional
+from typing import Any, Iterator
 
 import sqlalchemy as sa
 import sqlalchemy.orm
 
-from .models import OutboxRQModel
-from ..types import RQMessage, RQOutboxStorageABC
 from ...common.sqlachemy.storage import SQLAlchemyStorageMixin
+from ..types import RQMessage, RQOutboxStorageABC
+from .models import OutboxRQModel
 
 
 class SQLAlchemyRQOutboxStorage(RQOutboxStorageABC, SQLAlchemyStorageMixin):
@@ -15,18 +15,18 @@ class SQLAlchemyRQOutboxStorage(RQOutboxStorageABC, SQLAlchemyStorageMixin):
     def __init__(
         self,
         engine: sa.engine.Engine,
-        scoped_session: Optional[sa.orm.scoped_session] = None,
+        scoped_session: sa.orm.scoped_session | None = None,
     ) -> None:
         self.engine: sa.engine.Engine = engine
-        self.scoped_session: Optional[sa.orm.scoped_session] = scoped_session
+        self.scoped_session: sa.orm.scoped_session | None = scoped_session
 
     def save(
         self,
         func: str,
         args: list[Any],
         kwargs: dict[str, str],
-        session: Optional[sa.orm.Session] = None,
-        connection: Optional[sa.engine.Connection] = None,
+        session: sa.orm.Session | None = None,
+        connection: sa.engine.Connection | None = None,
     ) -> None:
         """Serialize and save to database RQ message"""
 
@@ -44,7 +44,7 @@ class SQLAlchemyRQOutboxStorage(RQOutboxStorageABC, SQLAlchemyStorageMixin):
             )
         )
 
-    def get_messages_batch(self, size: int) -> Iterator[List[RQMessage]]:
+    def get_messages_batch(self, size: int) -> Iterator[list[RQMessage]]:
 
         query = self.model.consume_query(size=size)
 
@@ -61,6 +61,7 @@ class SQLAlchemyRQOutboxStorage(RQOutboxStorageABC, SQLAlchemyStorageMixin):
                     yield [
                         RQMessage(
                             id=row["id"],
+                            func=row["func"],
                             args=row["args"],
                             kwargs=row["kwargs"],
                         )

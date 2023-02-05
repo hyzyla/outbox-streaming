@@ -1,7 +1,6 @@
 import logging
 import threading
 import time
-from typing import List
 
 from kafka import KafkaProducer
 
@@ -15,11 +14,11 @@ logger.addHandler(logging.StreamHandler())
 class OutboxKafkaPublisher:
     def __init__(
         self,
-        kafka_servers: List[str],
+        kafka_servers: list[str],
         storage: KafkaOutboxStorageABC,
         batch_size: int = 100,
     ) -> None:
-        self.kafka_servers: List[str] = kafka_servers
+        self.kafka_servers: list[str] = kafka_servers
         self.storage = storage
         self.batch_size = batch_size
 

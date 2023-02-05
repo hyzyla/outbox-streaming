@@ -1,5 +1,5 @@
 import json
-from typing import Any, AsyncIterator, List, Optional
+from typing import Any, AsyncIterator
 
 import sqlalchemy as sa
 from sqlalchemy.ext.asyncio import (
@@ -25,14 +25,14 @@ class AsyncSQLAlchemyCustomOutboxStorage(
     def __init__(
         self,
         engine: AsyncEngine,
-        json_dump: Optional[JsonDumpFunction] = None,
-        scoped_session: Optional[async_scoped_session] = None,
+        json_dump: JsonDumpFunction | None = None,
+        scoped_session: async_scoped_session | None = None,
     ) -> None:
         self.engine: AsyncEngine = engine
         self.json_dump: JsonDumpFunction = json_dump or json.dumps
-        self.scoped_session: Optional[async_scoped_session] = scoped_session
+        self.scoped_session: async_scoped_session | None = scoped_session
 
-    def serialize(self, value: str) -> Optional[bytes]:
+    def serialize(self, value: str) -> bytes | None:
         if value is None:
             return value
         return self.json_dump(value).encode()
@@ -40,8 +40,8 @@ class AsyncSQLAlchemyCustomOutboxStorage(
     async def save(
         self,
         value: Any,
-        session: Optional[AsyncSession] = None,
-        connection: Optional[AsyncConnection] = None,
+        session: AsyncSession | None = None,
+        connection: AsyncConnection | None = None,
     ) -> None:
         _value = self.serialize(value)
 
@@ -52,7 +52,7 @@ class AsyncSQLAlchemyCustomOutboxStorage(
 
         await connection.execute(sa.insert(self.model).values(value=_value))
 
-    async def get_messages_batch(self, size: int) -> AsyncIterator[List[CustomMessage]]:
+    async def get_messages_batch(self, size: int) -> AsyncIterator[list[CustomMessage]]:
 
         query = self.model.consume_query(size=size)
 

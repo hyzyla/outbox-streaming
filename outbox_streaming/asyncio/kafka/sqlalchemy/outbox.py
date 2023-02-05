@@ -1,4 +1,4 @@
-from typing import Any, List, Optional
+from typing import Any
 
 import sqlalchemy as sa
 import sqlalchemy.orm
@@ -17,9 +17,9 @@ class AsyncSQLAlchemyKafkaOutbox:
     def __init__(
         self,
         engine: AsyncEngine,
-        kafka_servers: List[str],
-        json_dump: Optional[JsonDumpFunction] = None,
-        scoped_session: Optional[sa.orm.scoped_session] = None,
+        kafka_servers: list[str],
+        json_dump: JsonDumpFunction | None = None,
+        scoped_session: sa.orm.scoped_session | None = None,
     ) -> None:
         self.storage = self.storage_class(
             engine=engine, json_dump=json_dump, scoped_session=scoped_session
@@ -33,9 +33,9 @@ class AsyncSQLAlchemyKafkaOutbox:
         self,
         topic: str,
         value: Any,
-        key: Optional[str] = None,
-        session: Optional[AsyncSession] = None,
-        connection: Optional[AsyncConnection] = None,
+        key: str | None = None,
+        session: AsyncSession | None = None,
+        connection: AsyncConnection | None = None,
     ) -> None:
         return await self.storage.save(
             topic=topic,
