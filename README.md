@@ -2,22 +2,32 @@
 
 Reliably send messages to message/task brokers, like Kafka or Celery
 
+**WARNING**:
+This project is in early development stage. It's not 
+recommended for production use. ⚠️ ☢️ ️🚧
+
 ## Roadmap
 ### Done
  - ✅ Kafka + SQLAlchemy
  - ✅ Kafka + SQLAlchemy + asyncio
-### In progress
- - ⏹ Celery + SQLAlchemy
- - ⏹ Celery + SQLAlchemy + asyncio
+### In progress (lack of tests)
+ - 🚧 Celery + SQLAlchemy
+ - 🚧 Celery + SQLAlchemy + asyncio
+ - 🚧 Custom + SQLAlchemy
+ - 🚧 Custom + SQLAlchemy + asyncio
 ### Planned
- - 🆕 Kafka + Django ORM
- - 🆕 Celery + Django ORM
- - 🆕 Dramatiq + SQLAlchemy
- - 🆕 Dramatiq + SQLAlchemy + asyncio
- - 🆕 Dramatiq + Django
- - 🆕 RabbitMQ + SQLAlchemy
- - 🆕 RabbitMQ + SQLAlchemy + asyncio
- - 🆕 RabbitMQ + Djagno
+ - 🔍 Kafka + Django ORM
+ - 🔍 Celery + Django ORM
+ - 🔍 Redis + Django
+ - 🔍 Dramatiq + SQLAlchemy
+ - 🔍 Dramatiq + SQLAlchemy + asyncio
+ - 🔍 Dramatiq + Django 
+ - 🔍 RabbitMQ + SQLAlchemy
+ - 🔍 RabbitMQ + SQLAlchemy + asyncio
+ - 🔍 RabbitMQ + Djagno
+ - 🔍 Redis + SQLAlchemy
+ - 🔍 Redis + SQLAlchemy + asyncio
+
 
 
 # Installation
