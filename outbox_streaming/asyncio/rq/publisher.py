@@ -2,26 +2,26 @@ import asyncio
 import logging
 import time
 
-from celery import Celery
-from celery.result import AsyncResult
+import rq
+from redis.client import Redis
 
-from .types import AsyncCeleryOutboxStorageABC
+from .types import AsyncRQOutboxStorageABC
 
 logger = logging.getLogger("outbox-streaming")
 logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.StreamHandler())
 
 
-class AsyncOutboxCeleryPublisher:
+class AsyncOutboxRQPublisher:
     def __init__(
         self,
-        celery: Celery,
-        storage: AsyncCeleryOutboxStorageABC,
+        storage: AsyncRQOutboxStorageABC,
         batch_size: int = 100,
     ) -> None:
-        self.celery = celery
         self.storage = storage
         self.batch_size = batch_size
+        self.redis = Redis()
+        self.queue = rq.Queue(connection=self.redis)
 
     def run_background_task(self) -> asyncio.Task[None]:
         task = asyncio.create_task(self._run_auto_restart())
@@ -46,13 +46,11 @@ class AsyncOutboxCeleryPublisher:
 
             logger.debug(f"Publishing outbox tasks: {len(batch)}")
             for task in batch:
-                result: AsyncResult = self.celery.send_task(
-                    name=task.name,
-                    args=task.args,
-                    kwarg=task.kwargs,
-                    options=task.options,
+                self.queue.enqueue(
+                    task.func,
+                    *task.args,
+                    **task.kwargs,
                 )
-                result.get()  # wait until task will be sent
 
             # sleep one second between empty batches
             if not batch:

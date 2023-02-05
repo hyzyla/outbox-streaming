@@ -16,17 +16,17 @@ recommended for production use. ⚠️ ☢️ ️🚧
  - 🚧 Custom + SQLAlchemy
  - 🚧 Custom + SQLAlchemy + asyncio
 ### Planned
- - 🔍 Kafka + Django ORM
- - 🔍 Celery + Django ORM
- - 🔍 Redis + Django
- - 🔍 Dramatiq + SQLAlchemy
- - 🔍 Dramatiq + SQLAlchemy + asyncio
- - 🔍 Dramatiq + Django 
- - 🔍 RabbitMQ + SQLAlchemy
- - 🔍 RabbitMQ + SQLAlchemy + asyncio
- - 🔍 RabbitMQ + Djagno
- - 🔍 Redis + SQLAlchemy
- - 🔍 Redis + SQLAlchemy + asyncio
+- 🔍 Dramatiq + SQLAlchemy
+- 🔍 Dramatiq + SQLAlchemy + asyncio
+- 🔍 RabbitMQ + SQLAlchemy
+- 🔍 RabbitMQ + SQLAlchemy + asyncio
+- 🔍 Redis + SQLAlchemy
+- 🔍 Redis + SQLAlchemy + asyncio
+- 🔍 Kafka + Django ORM
+- 🔍 Celery + Django ORM
+- 🔍 Redis + Django
+- 🔍 Dramatiq + Django 
+- 🔍 RabbitMQ + Djagno
 
 
 

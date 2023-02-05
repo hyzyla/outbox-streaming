@@ -1,7 +1,6 @@
 from typing import Any, AsyncIterator, Iterable, List, Mapping, Optional
 
 import sqlalchemy as sa
-from celery import Task
 from sqlalchemy.ext.asyncio import (
     AsyncConnection,
     AsyncEngine,
@@ -9,17 +8,17 @@ from sqlalchemy.ext.asyncio import (
     async_scoped_session,
 )
 
-from ....celery.sqlalchemy.models import OutboxCeleryModel
+from ..types import AsyncRQOutboxStorageABC, RQMessage
 from ...common.sqlalchemy.storage import AsyncSQLAlchemyStorageMixin
-from ..types import AsyncCeleryOutboxStorageABC, CeleryTask
+from ....rq.sqlalchemy.models import OutboxRQModel
 
 
-class AsyncSQLAlchemyCeleryOutboxStorage(
-    AsyncCeleryOutboxStorageABC,
+class AsyncSQLAlchemyRQOutboxStorage(
+    AsyncRQOutboxStorageABC,
     AsyncSQLAlchemyStorageMixin,
 ):
 
-    model = OutboxCeleryModel
+    model = OutboxRQModel
 
     def __init__(
         self,
@@ -44,14 +43,14 @@ class AsyncSQLAlchemyCeleryOutboxStorage(
 
     async def save(
         self,
-        task: Task,
+        func: str,
         args: Optional[Iterable[Any]] = None,
         kwargs: Optional[Mapping[str, Any]] = None,
-        options: Optional[Mapping[str, Any]] = None,
+        *,
         session: Optional[AsyncSession] = None,
         connection: Optional[AsyncConnection] = None,
     ) -> None:
-        """Serialize and save to database Celery task"""
+        """Serialize and save to database RQ task"""
 
         connection = await self.get_connection(
             session=session,
@@ -60,14 +59,13 @@ class AsyncSQLAlchemyCeleryOutboxStorage(
 
         await connection.execute(
             sa.insert(self.model).values(
-                name=task.name,
+                func=func,
                 args=args,
                 kwargs=kwargs,
-                options=options,
             )
         )
 
-    async def get_tasks_batch(self, size: int) -> AsyncIterator[List[CeleryTask]]:
+    async def get_tasks_batch(self, size: int) -> AsyncIterator[List[RQMessage]]:
 
         query = self.model.consume_query(size=size)
 
@@ -81,12 +79,11 @@ class AsyncSQLAlchemyCeleryOutboxStorage(
                     result = await connection.execute(query)
                     rows = result.fetchall()
                     yield [
-                        CeleryTask(
+                        RQMessage(
                             id=row["id"],
-                            name=row["name"],
+                            func=row["func"],
                             args=row["args"],
                             kwargs=row["kwargs"],
-                            options=row["options"],
                         )
                         for row in rows
                     ]

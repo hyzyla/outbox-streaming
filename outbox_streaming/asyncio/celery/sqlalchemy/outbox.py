@@ -5,14 +5,14 @@ import sqlalchemy.orm
 from celery import Celery, Task
 from sqlalchemy.ext.asyncio import AsyncEngine, async_scoped_session
 
-from ..publisher import AsyncOutboxKafkaPublisher
 from .storage import AsyncSQLAlchemyCeleryOutboxStorage
+from ..publisher import AsyncOutboxCeleryPublisher
 
 
 class AsyncSQLAlchemyCeleryOutbox:
 
     storage_class = AsyncSQLAlchemyCeleryOutboxStorage
-    publisher_class = AsyncOutboxKafkaPublisher
+    publisher_class = AsyncOutboxCeleryPublisher
 
     def __init__(
         self,

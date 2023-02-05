@@ -15,6 +15,8 @@ SQLAlchemy = {version = "^1.4, <2,", extras = ["asyncio"], optional = true}
 kafka-python = {version = "^2.0.2", optional = true}
 celery = {version = "^5.2.7", optional = true}
 psycopg2-binary = {version = "^2.9.3", optional = true}
+redis = "^4.4.2"
+rq = "^1.12.0"
 
 
 [tool.poetry.extras]
