@@ -1,3 +1,4 @@
+import copy
 from typing import Any
 
 import sqlalchemy as sa
@@ -13,6 +14,11 @@ class OutboxMixin:
 
     id = sa.Column(sa.BigInteger(), sa.Identity(), primary_key=True, nullable=False)
     created_at = sa.Column(sa.DateTime(), server_default=sa.func.now())
+
+    def to_dict(self) -> dict[str, Any]:
+        value = copy.deepcopy(self.__dict__)
+        value.pop("_sa_instance_state", None)
+        return value
 
     @classmethod
     def consume_query(cls, size: int) -> Any:

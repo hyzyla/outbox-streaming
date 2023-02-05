@@ -15,6 +15,7 @@ class SQLAlchemyCeleryOutboxStorage(CeleryOutboxStorageABC, SQLAlchemyStorageMix
 
     def __init__(
         self,
+        *,
         engine: sa.engine.Engine,
         scoped_session: sa.orm.scoped_session | None = None,
     ) -> None:
@@ -23,6 +24,7 @@ class SQLAlchemyCeleryOutboxStorage(CeleryOutboxStorageABC, SQLAlchemyStorageMix
 
     def save(
         self,
+        *,
         task: Task,
         args: Iterable[Any] | None = None,
         kwargs: Mapping[str, Any] | None = None,

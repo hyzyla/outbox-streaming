@@ -1,12 +1,7 @@
 import pytest
-from dotenv import dotenv_values
-import os
-from typing import Iterator
-
-import pytest
 import sqlalchemy as sa
-import sqlalchemy.exc
 import sqlalchemy.orm
+from dotenv import dotenv_values
 from sqlalchemy import create_engine
 
 from outbox_streaming.kafka.sqlalchemy import SQLAlchemyKafkaOutbox
@@ -20,17 +15,8 @@ def config():
 
 @pytest.fixture()
 def db_engine(config):
-    engine = create_engine(url=config['DATABASE_URL'], future=True)
+    engine = create_engine(url=config["DATABASE_URL"], future=True)
     yield engine
-
-
-@pytest.fixture()
-def outbox(config, db_engine) -> SQLAlchemyKafkaOutbox:
-    outbox = SQLAlchemyKafkaOutbox(
-        engine=db_engine,
-        kafka_servers=config['KAFKA_SERVERS'].split(','),
-    )
-    yield outbox
 
 
 @pytest.fixture()
@@ -43,7 +29,7 @@ def db_cleanup(db_engine) -> None:
             inspect = sa.inspect(db_engine)
             tables = inspect.get_table_names()
             if tables:
-                tables_str = ', '.join(tables)
+                tables_str = ", ".join(tables)
                 connection.execute(sa.text(f"DROP TABLE IF EXISTS {tables_str};"))
 
 
@@ -61,4 +47,3 @@ def db_session(db_engine) -> sa.orm.Session:
         yield s
     finally:
         s.close()
-

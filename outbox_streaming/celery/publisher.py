@@ -15,6 +15,7 @@ logger.addHandler(logging.StreamHandler())
 class OutboxKafkaPublisher:
     def __init__(
         self,
+        *,
         app: Celery,
         storage: CeleryOutboxStorageABC,
         batch_size: int = 100,
